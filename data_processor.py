@@ -2,10 +2,11 @@ import pandas as pd
 import os
 import csv
 import pickle
+import sklearn
 
 
 def process_data():
-    dir = 'C:/Users/amrut/PycharmProjects/Capstone/data'
+    dir = os.getcwd() + '/data'
     filenames = os.listdir(dir)
 
     data = []
@@ -16,7 +17,6 @@ def process_data():
             reader.next()
             for row in reader:
                 l = list()
-                l_target = list()
                 l.append(row[2])
                 l.append(row[3])
                 l.append(row[4])
@@ -35,6 +35,9 @@ def process_data():
     pickle.dump(train_labels, open('train_labels.txt', 'w'))
 
     return train_data, train_labels
+
+
+
 
 
 def main():
