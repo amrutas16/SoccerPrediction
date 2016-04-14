@@ -1,0 +1,2 @@
+# SoccerPrediction
+BI course project
