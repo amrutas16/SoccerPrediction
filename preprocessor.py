@@ -1,8 +1,6 @@
 import pandas as pd
 import os
 import csv
-import pickle
-import sklearn
 from collections import defaultdict
 k = 4
 
@@ -14,6 +12,7 @@ def process_data():
     data = []
     labels = []
     features = []
+    class_labels = []
     for filename in filenames:
         ht_match_count = defaultdict(lambda: 0)
         at_match_count = defaultdict(lambda: 0)
@@ -26,14 +25,15 @@ def process_data():
                 ht_match_count[home_team] += 1
                 at_match_count[away_team] += 1
                 l = [home_team, away_team, row[4], row[5], row[13], row[14], row[17], row[18], ht_match_count[home_team]
-                    ,at_match_count[away_team]]
+                    ,at_match_count[away_team], row[6]]
                 data.append(l)
-                labels.append(list(row[6]))
-        data = pd.DataFrame(data, columns=('HomeTeam', 'AwayTeam', 'FTHG', 'FTAG', 'HST', 'AST', 'HC', 'AC', 'HTMN', 'ATMN'))
+                # labels.append(list(row[6]))
+        data = pd.DataFrame(data, columns=('HomeTeam', 'AwayTeam', 'FTHG', 'FTAG', 'HST', 'AST', 'HC', 'AC', 'HTMN', 'ATMN', 'FTR'))
+        # print data
         home_goals, home_corners, home_st, away_goals, away_corners, away_st = create_dictionaries(data)
-        features = create_features(home_goals, home_corners, home_st, away_goals, away_corners, away_st, data, features)
+        features, class_labels = create_features(home_goals, home_corners, home_st, away_goals, away_corners, away_st, data, features, class_labels)
 
-    return pd.DataFrame(features, columns=('HomeTeam', 'AwayTeam', 'G', 'C', 'ST'))
+    return features, class_labels
 
 
 def create_dictionaries(data):
@@ -55,11 +55,11 @@ def create_dictionaries(data):
     return home_goals, home_corners, home_st, away_goals, away_corners, away_st
 
 
-def create_features(home_goals, home_corners, home_st, away_goals, away_corners, away_st, data, feature_set):
+def create_features(home_goals, home_corners, home_st, away_goals, away_corners, away_st, data, features, class_labels):
     for index, row in data.iterrows():
         home_match_no = row['HTMN']
         away_match_no = row['ATMN']
-
+        result = row['FTR']
         if home_match_no <= k or away_match_no <= k:
             continue
 
@@ -82,15 +82,13 @@ def create_features(home_goals, home_corners, home_st, away_goals, away_corners,
             away_c_avg += away_corners[away_team][i] / k
             away_st_avg += away_st[away_team][i] / k
 
-        l = [home_team, away_team, home_g_avg - away_g_avg, home_c_avg - away_c_avg, home_st_avg - away_st_avg]
-        feature_set.append(l)
-    return feature_set
+        l = [home_g_avg - away_g_avg, home_c_avg - away_c_avg, home_st_avg - away_st_avg]
+        features.append(l)
+        class_labels.append(result)
+
+    return features, class_labels
 
 
-def main():
-    feature_set = process_data()
 
-
-main()
 
 
