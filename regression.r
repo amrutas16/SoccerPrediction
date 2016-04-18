@@ -8,16 +8,25 @@ print(model_data)
 
 plot(model_data, pch=16)
 
-model <- lm(Win.Percentage ~ . , model_data)
+model <- lm(Win.Percentage ~ Home.Goals+Away.Goals+Home.Goals.Against+Away.Goals.Against+Corners, model_data)
 plot(model)
 
 coeffs=coefficients(model)
 
 print(coeffs[2])
 
-sample_test=data.frame(0.7129186602870813, 0.6638755980861244, -0.9796650717703349, -0.8492822966507177, 5.617224880382775, 0.7131144937968413)
-colnames(sample_test) <- c("Home.Goals","Away.Goals","Home.Goals.Against" ,"Away.Goals.Against","Shorts.on.Target.Ratio","Corners")
+sample_test1=data.frame(0.166666761,0.003572525,-3.53E-08,-0.000793652,0.015416221,0.198557276)
+colnames(sample_test1) <- c("Home.Goals","Away.Goals","Home.Goals.Against" ,"Away.Goals.Against","Corners")
+print(sample_test1)
 
-print(sample_test)
+x=predict(model,sample_test1)
 
-predict(model,sample_test,se.fit = TRUE)
+sample_test2=data.frame(9.42E-08,0.003572525,-3.53E-08,-0.056349207,0.000264706,0.226335053)
+colnames(sample_test2) <- c("Home.Goals","Away.Goals","Home.Goals.Against" ,"Away.Goals.Against","Corners")
+print(sample_test2)
+
+y=predict(model,sample_test2)
+
+print(x)
+print(y)
+
