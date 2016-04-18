@@ -82,7 +82,6 @@ def generate_features(train_data,train_labels):
         total_games= home_games+away_games
 
         feature_vector.append([team,sum(home_goals)/total_games,1.5*sum(away_goals)/total_games,-1.5*sum(home_goals_against)/total_games,-1*sum(away_goals_against)/total_games,(sum(corners_1)+sum(corners_2))/total_games,(sum(home_goals)+sum(away_goals)/(sum(away_shorts_target)+sum(home_shorts_target)))/total_games,(home_win+away_win)])
-
     for feature in feature_vector:
         print feature
 
