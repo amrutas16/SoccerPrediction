@@ -10,7 +10,7 @@ global train_data
 global train_labels
 
 def process_data():
-    dir = os.getcwd() + '/linear_regression/data'
+    dir = os.getcwd() + '/data'
     filenames = os.listdir(dir)
 
     data = []

@@ -2,7 +2,7 @@
 library(e1071)
 
 #loading the datast
-setwd('~/GitHub/Capstone_Project/SoccerPrediction')
+setwd('~/GitHub/Capstone_Project/SoccerPrediction/linear_regression')
 print(getwd())
 mydata=read.csv('R_data_load/features_shorts_on_target.csv')
 print(mydata)
@@ -225,4 +225,4 @@ print(length(result_frame))
 print(length(test_result_frame))
   
 
-paste("Accuracy is ",sum(test_result_frame==result_frame)/length(result_frame))
+paste("Accuracy is ",sum(test_result_frame==result_frame)/length(result_frame) * 100 , "percent")
