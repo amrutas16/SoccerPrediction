@@ -11,6 +11,7 @@ from sklearn import preprocessing
 global test_data
 global train_labels
 
+#Processing the initial data
 def process_data():
     dir = os.getcwd() + '/finaltest'
     filenames = os.listdir(dir)
@@ -41,6 +42,7 @@ def process_data():
     return test_data
 
 
+#Generating the test_feature vectors
 def generate_features(test_data):
     print "You are here"
     #feature_vector=[['Home Goals','Away Goals','Home Goals Against','Away Goals Against','Corners']]
@@ -111,7 +113,7 @@ def generate_features(test_data):
     return feature_vector
 
 
-
+#
 def main():
     global test_data
     global train_labels

@@ -9,6 +9,7 @@ from sklearn import preprocessing
 global train_data
 global train_labels
 
+#Processing the initial data
 def process_data():
     dir = os.getcwd() + '/data'
     filenames = os.listdir(dir)
@@ -43,6 +44,8 @@ def process_data():
 
     return train_data, train_labels
 
+
+#generating training features
 
 def generate_features(train_data,train_labels):
     #feature_vector=[['Team','Home Goals','Away Goals','Home Goals Against','Away Goals Against', 'Shorts on Target Ratio','Corners','Win Percentage']]
