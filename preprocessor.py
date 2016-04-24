@@ -2,8 +2,40 @@ import pandas as pd
 import os
 import csv
 from collections import defaultdict
-k = 7
-test_classes = []
+k = 0
+classification_type = ''
+
+
+def get_multiclass_train_features(k1):
+    global classification_type
+    global k
+    k = k1
+    classification_type = 'multiclass'
+    return get_features('train')
+
+
+def get_binary_train_features(k1):
+    global classification_type
+    global k
+    k = k1
+    classification_type = 'binary'
+    return get_features('train')
+
+
+def get_multiclass_test_features(k1):
+    global classification_type
+    global k
+    k = k1
+    classification_type = 'multiclass'
+    return get_features('test')
+
+
+def get_binary_test_features(k1):
+    global classification_type
+    global k
+    k = k1
+    classification_type = 'binary'
+    return get_features('test')
 
 
 def get_features(d):
@@ -75,12 +107,16 @@ def create_test_features(home_goals, home_corners, home_st, away_goals, away_cor
         home_match_no = row['HTMN']
         away_match_no = row['ATMN']
         result = row['FTR']
+        home_team = row['HomeTeam']
+        away_team = row['AwayTeam']
 
         if home_match_no <= k or away_match_no <= k:
             continue
 
-        home_team = row['HomeTeam']
-        away_team = row['AwayTeam']
+        if classification_type == 'binary':
+            if result != 'H':
+                result = 'NH'
+
         home_g_avg = 0
         away_g_avg = 0
         home_c_avg = 0
@@ -105,18 +141,12 @@ def create_test_features(home_goals, home_corners, home_st, away_goals, away_cor
         home_st_avg = float(home_g_avg) / float(k)
         away_st_avg = float(home_g_avg) / float(k)
 
-        if home_st_avg == 0:
-            h = 0.0
-        else:
-            h = home_g_avg/home_st_avg
-
-        if away_st_avg == 0:
-            a = 0.0
-        else:
-            a = away_g_avg/away_st_avg
+        h = home_st_avg
+        a = away_st_avg
 
         l = [home_g_avg - away_g_avg, home_c_avg - away_c_avg, h - a]
         features.append(l)
+
         class_labels.append(result)
     return features, class_labels
 
@@ -125,20 +155,24 @@ def create_train_features(home_goals, home_corners, home_st, away_goals, away_co
                           class_labels):
     for index, row in data.iterrows():
         result = row['FTR']
-        # if home_match_no <= k or away_match_no <= k:
-        #     continue
 
         home_match_no = row['HTMN']
         away_match_no = row['ATMN']
 
         home_team = row['HomeTeam']
         away_team = row['AwayTeam']
-        # hg = int(row['FTHG'])
-        # ag = int(row['FTAG'])
-        # hc = int(row['HC'])
-        # ac = int(row['AC'])
-        # hst = int(row['HST'])
-        # ast = int(row['AST'])
+
+        if classification_type == 'binary':
+            if result != 'H':
+                result = 'NH'
+
+        if home_match_no <= k:
+            l = [home_goals[home_team][home_match_no] - away_goals[away_team][away_match_no],
+                 home_corners[home_team][home_match_no] - away_corners[away_team][away_match_no],
+                 home_st[home_team][home_match_no] - away_st[away_team][away_match_no]]
+            features.append(l)
+            class_labels.append(result)
+            continue
 
         home_g_avg = 0
         away_g_avg = 0
@@ -147,7 +181,7 @@ def create_train_features(home_goals, home_corners, home_st, away_goals, away_co
         home_st_avg = 0
         away_st_avg = 0
 
-        for i in range(home_match_no - k - 1, home_match_no - 1):
+        for i in range(home_match_no - k, home_match_no):
             home_g_avg += home_goals[home_team][i] / k
             home_c_avg += home_corners[home_team][i] / k
             home_st_avg += home_st[home_team][i] / k
@@ -164,19 +198,14 @@ def create_train_features(home_goals, home_corners, home_st, away_goals, away_co
         hst = home_st_avg
         ast = away_st_avg
 
-        if hst == 0:
-            h = 0.0
-        else:
-            h = hg/hst
-
-        if ast == 0:
-            a = 0.0
-        else:
-            a = ag/ast
+        h = hst
+        a = ast
 
         l = [hg - ag, hc - ac, h - a]
         features.append(l)
         class_labels.append(result)
 
     return features, class_labels
+
+
 
