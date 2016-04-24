@@ -12,7 +12,7 @@ global test_data
 global train_labels
 
 def process_data():
-    dir = os.getcwd() + '/test'
+    dir = os.getcwd() + '/finaltest'
     filenames = os.listdir(dir)
 
     data = []
@@ -43,7 +43,9 @@ def process_data():
 
 def generate_features(test_data):
     print "You are here"
-    feature_vector=[['Home Goals','Away Goals','Home Goals Against','Away Goals Against', 'Shorts on Target Ratio','Corners']]
+    #feature_vector=[['Home Goals','Away Goals','Home Goals Against','Away Goals Against','Corners']]
+    feature_vector=[['Total Goals','Total Goals Against','Shorts on Target','Corners']]
+
     all_teams=test_data['HomeTeam'].unique()
 
     for team in all_teams:
@@ -75,16 +77,11 @@ def generate_features(test_data):
                     corners_1=float(row['HC'])
 
                     if(div==1):
-                        if(home_shorts_target>0):
-                            feature_vector.append([home_goals,away_goals,-1.5*home_goals_against,away_goals_against,home_goals/home_shorts_target,corners_1])
-                        else:
-                            feature_vector.append([home_goals,away_goals,-1.5*home_goals_against,away_goals_against,0,corners_1])
+
+                        feature_vector.append([home_goals+away_goals,-1.5*home_goals_against-away_goals_against,home_shorts_target,corners_1])
                         div=div+1
                     else:
-                        if(home_shorts_target>0):
-                            temp_vector=[home_goals,away_goals,-1.5*home_goals_against,away_goals_against,home_goals/home_shorts_target,corners_1]
-                        else:
-                            temp_vector=[home_goals,away_goals,-1.5*home_goals_against,away_goals_against,0,corners_1]
+                        temp_vector=[home_goals + away_goals,-1.5*home_goals_against-away_goals_against,home_shorts_target,corners_1]
                         c=[x+y for x,y in zip(feature_vector[div-1],temp_vector)]
                         c=[x/float(div) for x in c]
                         #c.append(team)
@@ -99,16 +96,10 @@ def generate_features(test_data):
                     corners_1=float(row['AC'])
 
                     if(div==1):
-                        if(away_shorts_target>0):
-                            feature_vector.append([home_goals,1.5*away_goals,home_goals_against,-1*away_goals_against,away_goals/away_shorts_target,corners_1])
-                        else:
-                            feature_vector.append([home_goals,1.5*away_goals,home_goals_against,-1*away_goals_against,0,corners_1])
+                        feature_vector.append([home_goals+1.5*away_goals,-1.5*home_goals_against-1*away_goals_against,away_shorts_target,corners_1])
                         div=div+1
                     else:
-                        if(away_shorts_target>0):
-                            temp_vector=[home_goals,1.5*away_goals,home_goals_against,-1*away_goals_against,away_goals/away_shorts_target,corners_1]
-                        else:
-                            temp_vector=[home_goals,1.5*away_goals,home_goals_against,-1*away_goals_against,0,corners_1]
+                        temp_vector=[home_goals+1.5*away_goals,-1.5*home_goals_against-1*away_goals_against,away_shorts_target,corners_1]
                         c=[x+y for x,y in zip(feature_vector[div-1],temp_vector)]
                         c=[x/float(div) for x in c]
                         #c.append(team)
@@ -127,7 +118,7 @@ def main():
     test_data=process_data()
     print(test_data)
     final_features= generate_features(test_data)
-    with open("test_features1.csv", "wb") as f:
+    with open("test/test_features.csv", "wb") as f:
         writer = csv.writer(f)
         writer.writerows(final_features)
 

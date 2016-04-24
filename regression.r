@@ -1,100 +1,63 @@
-mydata=read.csv('C:/Users/Vaibhav/Documents/GitHub/Capstone_Project/SoccerPrediction/features.csv')
+#install.packages("e1071")
+library(e1071)
 
+#loading the datast
+setwd('~/GitHub/Capstone_Project/SoccerPrediction')
+print(getwd())
+mydata=read.csv('R_data_load/features_shorts_on_target.csv')
 print(mydata)
-summary(mydata)
 
-model_data=mydata[,c(2,3,4,5,7,8)]
+#C:/Users/Vaibhav/Documents/GitHub/Capstone_Project/SoccerPrediction/
+
+#preparing the data model
+model_data=mydata[,c(2,3,4,5,6)]
 print(model_data)
 
-plot(model_data, pch=16)
+#generating the model with support vector and linear regression
+model <- lm(Win.Percentage ~ Total.Goals+Total.Goals.Against+Shorts.on.Target+Corners, model_data)
+#model<- svm(Win.Percentage ~ Total.Goals+Total.Goals.Against+Shorts.on.Target+Corners, model_data)
 
-model <- lm(Win.Percentage ~ Home.Goals+Away.Goals+Home.Goals.Against+Away.Goals.Against+Corners, model_data)
-plot(model)
-
+#Checking the coefficients
 coeffs=coefficients(model)
 
-print(coeffs)
 
-
-testdata=read.csv('C:/Users/Vaibhav/Documents/GitHub/Capstone_Project/SoccerPrediction/test_features1.csv')
-
+#loading the testdata
+testdata=read.csv('test/test_features.csv')
 print(testdata)
-summary(testdata)
 
 
-#testing
-#sample_test1=data.frame(0.028147046,0.16698082,-0.042216435,-0.115090388,0.926014109)
-sample_test1=Arsenal[1,]
-colnames(sample_test1) <- c("Home.Goals","Away.Goals","Home.Goals.Against" ,"Away.Goals.Against","Corners")
-print(sample_test1)
-
-print(testdata[testdata$Team])
-
-
-
-
-
-
-x=predict(model,sample_test1)
-
-sample_test2=data.frame(0.250369268,0.000314153,-0.042216435,-0.003979277,0.370458554)
-colnames(sample_test2) <- c("Home.Goals","Away.Goals","Home.Goals.Against" ,"Away.Goals.Against","Corners")
-print(sample_test2)
-
-Div-1=2
-
-y=predict(model,Arsenal[Div-1,])
-
-
-if(x>y & abs(x-y) >2.0){
-  print('x')
-}
-if(y>x & abs(x-y) >2.0){
-  print('y')
-}
-
-
-print(x)
-print(y)
-
-
-print(testdata)
 
 #Extracting All Team Vectors
-Arsenal= testdata[testdata$Team=='Arsenal',c(2,3,4,5,6)]
-Leicester= testdata[testdata$Team=='Leicester',c(2,3,4,5,6)]
-ManUnited = testdata[testdata$Team=='Man United',c(2,3,4,5,6)]
-QPR= testdata[testdata$Team=='QPR',c(2,3,4,5,6)]
-Stoke= testdata[testdata$Team=='Stoke',c(2,3,4,5,6)]
-WestBrom = testdata[testdata$Team=='West Brom',c(2,3,4,5,6)]
-WestHam = testdata[testdata$Team=='West Ham',c(2,3,4,5,6)]
-Liverpool= testdata[testdata$Team=='Liverpool',c(2,3,4,5,6)]
-Newcastle= testdata[testdata$Team=='Newcastle',c(2,3,4,5,6)]
-Burnley= testdata[testdata$Team=='Burnley',c(2,3,4,5,6)]
-AstonVilla = testdata[testdata$Team=='Aston Villa',c(2,3,4,5,6)]
-Chelsea= testdata[testdata$Team=='Chelsea',c(2,3,4,5,6)]
-CrystalPalace= testdata[testdata$Team=='Crystal Palace',c(2,3,4,5,6)]
-Everton = testdata[testdata$Team=='Everton',c(2,3,4,5,6)]
-Southampton= testdata[testdata$Team=='Southampton',c(2,3,4,5,6)]
-Swansea= testdata[testdata$Team=='Swansea',c(2,3,4,5,6)]
-Hull= testdata[testdata$Team=='Hull',c(2,3,4,5,6)]
-Sunderland= testdata[testdata$Team=='Sunderland',c(2,3,4,5,6)]
-Tottenham = testdata[testdata$Team=='Tottenham',c(2,3,4,5,6)]
-ManCity= testdata[testdata$Team=='Man City',c(2,3,4,5,6)]
+Arsenal= testdata[testdata$Team=='Arsenal',c(2,3,4,5)]
+Leicester= testdata[testdata$Team=='Leicester',c(2,3,4,5)]
+ManUnited = testdata[testdata$Team=='Man United',c(2,3,4,5)]
+QPR= testdata[testdata$Team=='QPR',c(2,3,4,5)]
+Stoke= testdata[testdata$Team=='Stoke',c(2,3,4,5)]
+WestBrom = testdata[testdata$Team=='West Brom',c(2,3,4,5)]
+WestHam = testdata[testdata$Team=='West Ham',c(2,3,4,5)]
+Liverpool= testdata[testdata$Team=='Liverpool',c(2,3,4,5)]
+Newcastle= testdata[testdata$Team=='Newcastle',c(2,3,4,5)]
+Burnley= testdata[testdata$Team=='Burnley',c(2,3,4,5)]
+AstonVilla = testdata[testdata$Team=='Aston Villa',c(2,3,4,5)]
+Chelsea= testdata[testdata$Team=='Chelsea',c(2,3,4,5)]
+CrystalPalace= testdata[testdata$Team=='Crystal Palace',c(2,3,4,5)]
+Everton = testdata[testdata$Team=='Everton',c(2,3,4,5)]
+Southampton= testdata[testdata$Team=='Southampton',c(2,3,4,5)]
+Swansea= testdata[testdata$Team=='Swansea',c(2,3,4,5)]
+Hull= testdata[testdata$Team=='Hull',c(2,3,4,5)]
+Sunderland= testdata[testdata$Team=='Sunderland',c(2,3,4,5)]
+Tottenham = testdata[testdata$Team=='Tottenham',c(2,3,4,5)]
+ManCity= testdata[testdata$Team=='Man City',c(2,3,4,5)]
 
 
-print(CrystalPalace)
-TestData=read.csv('C:/Users/Vaibhav/Documents/GitHub/Capstone_Project/SoccerPrediction/test/TestData.csv')
 
-print(TestData)
-
+#Loading the testdata for matches and full time results
+TestData=read.csv('test/testdata.csv')
 test_result_frame=t(as.vector(TestData['FTR']))
 
-test_result_frame=c(test_result_frame,TestData$FTR)
-print(test_result_frame)
 
+#Running the predictions game by game
 result_frame=c()
-
 
 for(i in 1:nrow(TestData)){
   Div=as.integer(TestData[i,1])
@@ -148,7 +111,7 @@ for(i in 1:nrow(TestData)){
   Everton={
     x=predict(model,Everton[Div-1,])
   },
-  Southampton={
+  Southamptaon={
     x=predict(model,Southampton[Div-1,])
   },
   Swansea={
@@ -171,7 +134,7 @@ for(i in 1:nrow(TestData)){
   }
   )
   
-  
+  x=x+0.1
   switch(as.character(AwayTeam),
          Arsenal={
            y=predict(model,Arsenal[Div-1,])
@@ -241,20 +204,25 @@ for(i in 1:nrow(TestData)){
   print(x)
   print(y)
   
-if(x > y & abs(x-y)> 3.0){
+if(x > y & abs(x-y)>0.01){
     result_frame=c(result_frame,'H')
 }
-else  if(y > x & abs(x-y)>3.0){
+else if ( y>x & abs(x-y)>0.01){
     result_frame=c(result_frame,'A')
 }
 else{
-    result_frame=c(result_frame,'D')
+   result_frame=c(result_frame,'D')
 }
     
 }
-    
 
+
+
+#Output
 sum(test_result_frame==result_frame)
+print(result_frame)
 print(length(result_frame))
 print(length(test_result_frame))
   
+
+paste("Accuracy is ",sum(test_result_frame==result_frame)/length(result_frame))

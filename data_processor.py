@@ -45,7 +45,10 @@ def process_data():
 
 
 def generate_features(train_data,train_labels):
-    feature_vector=[['Team','Home Goals','Away Goals','Home Goals Against','Away Goals Against', 'Shorts on Target Ratio','Corners','Win Percentage']]
+    #feature_vector=[['Team','Home Goals','Away Goals','Home Goals Against','Away Goals Against', 'Shorts on Target Ratio','Corners','Win Percentage']]
+
+    feature_vector=[['Team','Total Goals','Total Goals Against','Shorts on Target','Corners','Win Percentage']]
+
     home_goals=[]
     away_goals=[]
     home_goals_against=[]
@@ -81,7 +84,7 @@ def generate_features(train_data,train_labels):
 
         total_games= home_games+away_games
 
-        feature_vector.append([team,sum(home_goals)/total_games,1.5*sum(away_goals)/total_games,-1.5*sum(home_goals_against)/total_games,-1*sum(away_goals_against)/total_games,(sum(corners_1)+sum(corners_2))/total_games,(sum(home_goals)+sum(away_goals)/(sum(away_shorts_target)+sum(home_shorts_target)))/total_games,(home_win+away_win)])
+        feature_vector.append([team,(sum(home_goals)+1.5*sum(away_goals))/total_games,(-1.5*sum(home_goals_against)-1*sum(away_goals_against))/total_games,(sum(corners_1)+sum(corners_2))/total_games,(sum(away_shorts_target)+sum(home_shorts_target))/total_games,(home_win+away_win)])
     for feature in feature_vector:
         print feature
 
@@ -94,7 +97,7 @@ def main():
     global train_labels
     train_data,train_labels=process_data()
     final_features=generate_features(train_data,train_labels)
-    with open("features.csv", "wb") as f:
+    with open("R_data_load/aggregated_features.csv", "wb") as f:
         writer = csv.writer(f)
         writer.writerows(final_features)
 
