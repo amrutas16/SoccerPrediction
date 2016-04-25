@@ -1,7 +1,7 @@
 Predicting the outcome of soccer matches in the English Premier League.
 This is a project for the course 'Algorithms for Data Guided Business Intelligence'. 
 
-** Linear and Support Vector Regression **
+**Linear and Support Vector Regression**
 
 The Linear Regression folder consists of data_processor.py and test_data_preprocessing.py that contains code to preprocess the training and testing data to extract the features required to train the model .  data_processor.py generates the file aggregated_features.csv in the R_Data_load folder. test_data_preprocessing.py generates the test_features.csv in the test folder.
 
