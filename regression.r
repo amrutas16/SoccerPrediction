@@ -4,7 +4,7 @@ library(e1071)
 #loading the datast
 setwd('~/GitHub/Capstone_Project/SoccerPrediction')
 print(getwd())
-mydata=read.csv('R_data_load/features_shorts_on_target.csv')
+mydata=read.csv('R_data_load/aggregated_features.csv')
 print(mydata)
 
 #C:/Users/Vaibhav/Documents/GitHub/Capstone_Project/SoccerPrediction/
