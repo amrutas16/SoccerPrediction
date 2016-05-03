@@ -4,7 +4,7 @@ library(e1071)
 #loading the datast
 setwd('~/GitHub/Capstone_Project/SoccerPrediction/linear_regression')
 print(getwd())
-mydata=read.csv('R_data_load/features_shorts_on_target.csv')
+mydata=read.csv('R_data_load/aggregated_features.csv')
 print(mydata)
 
 #C:/Users/Vaibhav/Documents/GitHub/Capstone_Project/SoccerPrediction/
@@ -49,7 +49,7 @@ Sunderland= testdata[testdata$Team=='Sunderland',c(2,3,4,5)]
 Tottenham = testdata[testdata$Team=='Tottenham',c(2,3,4,5)]
 ManCity= testdata[testdata$Team=='Man City',c(2,3,4,5)]
 
-
+print(Arsenal[2,])
 
 #Loading the testdata for matches and full time results
 TestData=read.csv('test/testdata.csv')
