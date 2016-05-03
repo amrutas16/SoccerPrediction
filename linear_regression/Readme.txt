@@ -1,0 +1,5 @@
+1. Run the data_processor file that will generate a file aggregated_features.csv in the R_data_load folder.
+
+2. Run the test_data_preprocessing file that will generate test_features.csv in the test folder.
+
+3. Run the regression.R file to get the results using linear and svr models.

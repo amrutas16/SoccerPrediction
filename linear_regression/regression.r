@@ -2,7 +2,7 @@
 library(e1071)
 
 #loading the datast
-setwd('~/GitHub/Capstone_Project/SoccerPrediction/linear_regression')
+#setwd('C:/Users/Vaibhav/Downloads/Capstone_project_team_12/Capstone_project_team_12/linear_regression')
 print(getwd())
 mydata=read.csv('R_data_load/aggregated_features.csv')
 print(mydata)
