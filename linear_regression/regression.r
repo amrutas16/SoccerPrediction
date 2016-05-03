@@ -2,16 +2,12 @@
 library(e1071)
 
 #loading the datast
-#setwd('C:/Users/Vaibhav/Downloads/Capstone_project_team_12/Capstone_project_team_12/linear_regression')
-print(getwd())
-mydata=read.csv('R_data_load/aggregated_features.csv')
-print(mydata)
-
-#C:/Users/Vaibhav/Documents/GitHub/Capstone_Project/SoccerPrediction/
+setwd('C:/Users/Vaibhav/Downloads')
+mydata=read.csv('Capstone_project_team_12/linear_regression/R_data_load/aggregated_features.csv')
 
 #preparing the data model
 model_data=mydata[,c(2,3,4,5,6)]
-print(model_data)
+
 
 #generating the model with support vector and linear regression
 model <- lm(Win.Percentage ~ Total.Goals+Total.Goals.Against+Shorts.on.Target+Corners, model_data)
@@ -22,8 +18,7 @@ coeffs=coefficients(model)
 
 
 #loading the testdata
-testdata=read.csv('test/test_features.csv')
-print(testdata)
+testdata=read.csv('Capstone_project_team_12/linear_regression/test/test_features.csv')
 
 
 
@@ -49,10 +44,9 @@ Sunderland= testdata[testdata$Team=='Sunderland',c(2,3,4,5)]
 Tottenham = testdata[testdata$Team=='Tottenham',c(2,3,4,5)]
 ManCity= testdata[testdata$Team=='Man City',c(2,3,4,5)]
 
-print(Arsenal[2,])
 
 #Loading the testdata for matches and full time results
-TestData=read.csv('test/testdata.csv')
+TestData=read.csv('Capstone_project_team_12/linear_regression/test/testdata.csv')
 test_result_frame=t(as.vector(TestData['FTR']))
 
 
